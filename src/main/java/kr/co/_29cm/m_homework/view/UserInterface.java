@@ -26,8 +26,8 @@ public class UserInterface {
     public void render() {
         while(true) {
             orderOrQuitQuestion.ask(scanner
-                    , (() -> chooseToOrder())
-                    , (() -> chooseToQuit())
+                    , (() -> chooseOrder())
+                    , (() -> chooseQuit())
             );
 
             if(doesUserWantToQuit()) {
@@ -35,7 +35,7 @@ public class UserInterface {
             }
         }
     }
-    public void chooseToOrder() {
+    public void chooseOrder() {
         List<String> colNames = productController.getColNames();
         List<Product> products = productController.getAllProducts();
 
@@ -65,7 +65,7 @@ public class UserInterface {
                 });
     }
 
-    private void chooseToQuit() {
+    private void chooseQuit() {
         quitFlag = true;
     }
 
