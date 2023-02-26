@@ -1,5 +1,6 @@
 package kr.co._29cm.m_homework.controller;
 
+import kr.co._29cm.m_homework.database.exception.SoldOutException;
 import kr.co._29cm.m_homework.entity.Order;
 import kr.co._29cm.m_homework.entity.Product;
 import kr.co._29cm.m_homework.service.ProductService;
@@ -26,7 +27,11 @@ public class ProductController {
         return productService.isProductIdValidate(id);
     }
 
-    public boolean isStockAmtOk(Order order) {
+    public boolean isStockAmtOk(Order order) throws SoldOutException {
         return productService.isStockAmtOk(order);
+    }
+
+    public void pay() {
+
     }
 }

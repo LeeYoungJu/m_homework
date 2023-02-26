@@ -1,5 +1,6 @@
 package kr.co._29cm.m_homework.service;
 
+import kr.co._29cm.m_homework.database.exception.SoldOutException;
 import kr.co._29cm.m_homework.repository.DataRepository;
 import kr.co._29cm.m_homework.database.DataTopic;
 import kr.co._29cm.m_homework.database.exception.IllegalTopicException;
@@ -56,10 +57,15 @@ public class ProductService {
         }
     }
 
-    public boolean isStockAmtOk(Order order) {
-        return order.getOrderProducts().stream().map(orderProduct -> {
+    public boolean isStockAmtOk(Order order) throws SoldOutException {
+        boolean isStockOk = order.getOrderProducts().stream().map(orderProduct -> {
             Product product = getProductById(orderProduct.getProductId());
             return product.getStockAmt() > orderProduct.getOrderAmt();
         }).allMatch(isOk -> isOk);
+
+        if(!isStockOk) {
+            throw new SoldOutException();
+        }
+        return true;
     }
 }

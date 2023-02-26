@@ -1,6 +1,7 @@
 package kr.co._29cm.m_homework.view;
 
 import kr.co._29cm.m_homework.controller.ProductController;
+import kr.co._29cm.m_homework.database.exception.SoldOutException;
 import kr.co._29cm.m_homework.entity.Order;
 import kr.co._29cm.m_homework.entity.OrderProduct;
 import kr.co._29cm.m_homework.entity.Product;
@@ -52,9 +53,16 @@ public class UserInterface {
                     if(order.isProductEmpty()) {
                         return false;
                     }
-                    return productController.isStockAmtOk(order);
+                    try {
+                        return productController.isStockAmtOk(order);
+                    } catch (SoldOutException e) {
+                        System.out.println("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
+                        return false;
+                    }
                 }
-                , () -> {}
+                , () -> {
+                    productController.pay();
+                }
                 , (productId, orderAmt) -> {
                     OrderProduct orderProduct = OrderProduct.builder()
                             .ProductId(productId)

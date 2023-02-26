@@ -1,9 +1,8 @@
 package kr.co._29cm.m_homework.view.question;
 
-import kr.co._29cm.m_homework.entity.OrderProduct;
 import kr.co._29cm.m_homework.view.consts.Question;
 import kr.co._29cm.m_homework.view.inferface.ProductIdExistChecker;
-import kr.co._29cm.m_homework.view.inferface.QuestionBooleanCallback;
+import kr.co._29cm.m_homework.view.inferface.WhenSpaceBarToProductId;
 import kr.co._29cm.m_homework.view.inferface.QuestionCallback;
 import kr.co._29cm.m_homework.view.inferface.SelectProductCallback;
 import org.springframework.stereotype.Component;
@@ -17,12 +16,16 @@ public class ProductOrderQuestion {
 
     public void ask(Scanner scanner
             , ProductIdExistChecker productIdExistChecker
-            , QuestionBooleanCallback checkStockAmt
+            , WhenSpaceBarToProductId whenSpaceBarToProductId
             , QuestionCallback whenFinishSelectProduct
             , SelectProductCallback whenSelectProduct) {
 
         while(true) {
-            String productId = askProductId(scanner, checkStockAmt, productIdExistChecker);
+            String productId = askProductId(scanner, whenSpaceBarToProductId, productIdExistChecker);
+
+            if(doesUserWantToQuit()) {
+                break;
+            }
 
             int orderAmt = askOrderAmt(scanner, productId, whenFinishSelectProduct);
 
@@ -35,7 +38,7 @@ public class ProductOrderQuestion {
     }
 
     private String askProductId(Scanner scanner
-            , QuestionBooleanCallback checkStockAmt
+            , WhenSpaceBarToProductId whenSpaceBarToProductId
             , ProductIdExistChecker productIdExistChecker) {
         String productId = "";
         while(true) {
@@ -43,8 +46,8 @@ public class ProductOrderQuestion {
             productId = scanner.nextLine();
 
             if(isSpaceBar(productId)) {
-                if(!checkStockAmt.check()) {
-                    chooseToQuit();
+                if(!whenSpaceBarToProductId.checkStockAmt()) {
+                    chooseQuit();
                 }
                 break;
             } else {
@@ -69,7 +72,7 @@ public class ProductOrderQuestion {
 
             if (isSpaceBar(productId) && isSpaceBar(stockAmtStr)) {
                 whenFinishSelectProduct.afterAnswer();
-                chooseToQuit();
+                chooseQuit();
                 break;
             } else {
                 try {
@@ -87,7 +90,7 @@ public class ProductOrderQuestion {
         return keyword.charAt(0) == SPACE_CODE;
     }
 
-    private void chooseToQuit() {
+    private void chooseQuit() {
         quitFlag = true;
     }
 
