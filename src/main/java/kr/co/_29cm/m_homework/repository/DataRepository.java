@@ -63,16 +63,16 @@ public class DataRepository {
         });
     }
 
-    public List<String> getColNames(String topic) throws IllegalTopicException {
-        if(topic.equals(DataTopic.PRODUCT)) {
+    public List<String> getColNames(Class<?> targetClass) throws IllegalTopicException {
+        if(targetClass == Product.class) {
             return dataVirtualStorage.getProductColNames();
         }
 
         throw new IllegalTopicException();
     }
 
-    public <T> List<T> getAll(String topic) throws IllegalTopicException {
-        if(topic.equals(DataTopic.PRODUCT)) {
+    public <T> List<T> getAll(Class<T> targetClass) throws IllegalTopicException {
+        if(targetClass == Product.class) {
             return (List<T>) dataVirtualStorage.getProducts();
         }
 

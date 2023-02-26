@@ -21,7 +21,7 @@ public class ProductService {
 
     public List<String> getColNames() {
         try {
-            return dataRepository.getColNames(topic);
+            return dataRepository.getColNames(Product.class);
         } catch (IllegalTopicException e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +29,7 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         try {
-            return dataRepository.getAll(topic);
+            return dataRepository.getAll(Product.class);
         } catch (IllegalTopicException e) {
             throw new RuntimeException(e);
         }
