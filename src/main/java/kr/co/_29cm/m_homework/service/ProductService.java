@@ -1,10 +1,10 @@
 package kr.co._29cm.m_homework.service;
 
-import kr.co._29cm.m_homework.database.exception.SoldOutException;
+import kr.co._29cm.m_homework.customException.SoldOutException;
 import kr.co._29cm.m_homework.repository.DataRepository;
 import kr.co._29cm.m_homework.database.DataTopic;
-import kr.co._29cm.m_homework.database.exception.IllegalTopicException;
-import kr.co._29cm.m_homework.database.exception.NoDataException;
+import kr.co._29cm.m_homework.customException.IllegalTopicException;
+import kr.co._29cm.m_homework.customException.NoDataException;
 import kr.co._29cm.m_homework.entity.Order;
 import kr.co._29cm.m_homework.entity.Product;
 import lombok.RequiredArgsConstructor;

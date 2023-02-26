@@ -1,7 +1,7 @@
 package kr.co._29cm.m_homework.view;
 
 import kr.co._29cm.m_homework.controller.ProductController;
-import kr.co._29cm.m_homework.database.exception.SoldOutException;
+import kr.co._29cm.m_homework.customException.SoldOutException;
 import kr.co._29cm.m_homework.entity.Order;
 import kr.co._29cm.m_homework.entity.OrderProduct;
 import kr.co._29cm.m_homework.entity.Product;
