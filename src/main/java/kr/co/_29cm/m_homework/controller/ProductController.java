@@ -1,6 +1,6 @@
 package kr.co._29cm.m_homework.controller;
 
-import kr.co._29cm.m_homework.customException.SoldOutException;
+import kr.co._29cm.m_homework.exception.SoldOutException;
 import kr.co._29cm.m_homework.entity.Order;
 import kr.co._29cm.m_homework.entity.Product;
 import kr.co._29cm.m_homework.service.ProductService;

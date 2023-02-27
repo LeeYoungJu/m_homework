@@ -1,4 +1,4 @@
-package kr.co._29cm.m_homework.customException;
+package kr.co._29cm.m_homework.exception;
 
 public class NoDataException extends Exception {
 }
