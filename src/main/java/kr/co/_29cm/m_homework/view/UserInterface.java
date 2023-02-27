@@ -1,10 +1,11 @@
 package kr.co._29cm.m_homework.view;
 
+import kr.co._29cm.m_homework.controller.OrderController;
 import kr.co._29cm.m_homework.controller.ProductController;
-import kr.co._29cm.m_homework.exception.SoldOutException;
 import kr.co._29cm.m_homework.entity.Order;
 import kr.co._29cm.m_homework.entity.OrderProduct;
 import kr.co._29cm.m_homework.entity.Product;
+import kr.co._29cm.m_homework.exception.SoldOutException;
 import kr.co._29cm.m_homework.view.question.OrderOrQuitQuestion;
 import kr.co._29cm.m_homework.view.question.ProductOrderQuestion;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +13,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class UserInterface {
     private final ProductController productController;
+    private final OrderController orderController;
     private final OrderOrQuitQuestion orderOrQuitQuestion;
     private final ProductOrderQuestion productOrderQuestion;
 
@@ -31,7 +32,7 @@ public class UserInterface {
                     , (() -> chooseQuit())
             );
 
-            if(doesUserWantToQuit()) {
+            if(isQuit()) {
                 break;
             }
         }
@@ -45,7 +46,11 @@ public class UserInterface {
             PrintUtils.printProduct(product);
         }
 
-        Order order = Order.builder().id(UUID.randomUUID().toString()).build();
+        /*
+         * Order 인스턴스의 생명주기는 사용자가 주문 프로세스를 새로 시작할 때 생성되고
+         * 주문 프로세스가 종료될 때 사라져야 하므로 이 위치가 적당하다.
+         */
+        Order order = orderController.createOrder();
 
         /*
          * 사용자에게 주문할 상품번호, 수량을 물어본다.
@@ -65,7 +70,7 @@ public class UserInterface {
                  * 상품 추가 완료 후 상품번호, 수량 입력 단계에서 모두 SPACE+ENTER 이벤트 발생 시 주문 결제
                  */
                 , () -> {
-                    productController.pay();
+                    orderController.payForOrder(order);
                 }
 
                 /*
@@ -73,7 +78,7 @@ public class UserInterface {
                  */
                 , (productId, orderAmt) -> {
                     OrderProduct orderProduct = OrderProduct.builder()
-                            .ProductId(productId)
+                            .productId(productId)
                             .orderAmt(orderAmt)
                             .build();
 
@@ -86,7 +91,7 @@ public class UserInterface {
      */
     private boolean checkOrderProductStockAmt(Order order) {
         if(order.isProductEmpty()) {
-            // 아무 상품도 추가하지 않은 상태에서
+            // 아무 상품도 추가하지 않은 상태일 때
             return false;
         }
         try {
@@ -101,7 +106,7 @@ public class UserInterface {
         quitFlag = true;
     }
 
-    private boolean doesUserWantToQuit() {
+    private boolean isQuit() {
         return quitFlag;
     }
 }

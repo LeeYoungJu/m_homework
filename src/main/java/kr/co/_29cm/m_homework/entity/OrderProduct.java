@@ -7,6 +7,10 @@ import lombok.Getter;
 @Builder
 public class OrderProduct {
 
-    private String ProductId;
+    private String productId;
     private int orderAmt;
+
+    public void addOrderAmt(int amt) {
+        orderAmt += amt;
+    }
 }

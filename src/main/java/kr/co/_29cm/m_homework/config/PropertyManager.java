@@ -2,7 +2,6 @@ package kr.co._29cm.m_homework.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.EnvironmentAware;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;

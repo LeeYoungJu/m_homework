@@ -5,10 +5,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class Product {
+public class Product implements BaseEntity {
     private String id;
     private String name;
     private int price;
     private int stockAmt;
-
 }

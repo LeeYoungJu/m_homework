@@ -1,12 +1,11 @@
 package kr.co._29cm.m_homework.service;
 
-import kr.co._29cm.m_homework.exception.SoldOutException;
-import kr.co._29cm.m_homework.repository.DataRepository;
-import kr.co._29cm.m_homework.database.DataTopic;
-import kr.co._29cm.m_homework.exception.IllegalTopicException;
-import kr.co._29cm.m_homework.exception.NoDataException;
 import kr.co._29cm.m_homework.entity.Order;
 import kr.co._29cm.m_homework.entity.Product;
+import kr.co._29cm.m_homework.exception.IllegalTopicException;
+import kr.co._29cm.m_homework.exception.NoDataException;
+import kr.co._29cm.m_homework.exception.SoldOutException;
+import kr.co._29cm.m_homework.repository.BaseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,14 +14,11 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class ProductService {
-
-    private String topic = DataTopic.PRODUCT;
-
-    private final DataRepository dataRepository;
+    private final BaseRepository baseRepository;
 
     public List<String> getColNames() {
         try {
-            return dataRepository.getColNames(Product.class);
+            return baseRepository.selectColNames(Product.class);
         } catch (IllegalTopicException e) {
             throw new RuntimeException(e);
         }
@@ -30,7 +26,7 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         try {
-            return dataRepository.getAll(Product.class);
+            return baseRepository.selectAll(Product.class);
         } catch (IllegalTopicException e) {
             throw new RuntimeException(e);
         }
@@ -38,7 +34,7 @@ public class ProductService {
 
     public Product getProductById(String id) {
         try {
-            return dataRepository.getObjectById(Product.class, id);
+            return baseRepository.selectOneById(Product.class, id);
         } catch (NoDataException e) {
             throw new RuntimeException(e);
         } catch (IllegalTopicException e) {
@@ -48,7 +44,7 @@ public class ProductService {
 
     public boolean isProductIdValidate(String id) {
         try {
-            dataRepository.getObjectById(Product.class, id);
+            baseRepository.selectOneById(Product.class, id);
             return true;
         } catch (NoDataException e) {
             return false;

@@ -30,8 +30,4 @@ public class ProductController {
     public boolean isStockAmtOk(Order order) throws SoldOutException {
         return productService.isStockAmtOk(order);
     }
-
-    public void pay() {
-
-    }
 }
