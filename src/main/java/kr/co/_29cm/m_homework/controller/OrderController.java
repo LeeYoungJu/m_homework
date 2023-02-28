@@ -1,6 +1,8 @@
 package kr.co._29cm.m_homework.controller;
 
 import kr.co._29cm.m_homework.entity.Order;
+import kr.co._29cm.m_homework.exception.SoldOutException;
+import kr.co._29cm.m_homework.service.DeliveryInfoService;
 import kr.co._29cm.m_homework.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +16,7 @@ public class OrderController {
         return orderService.createOrder();
     }
 
-    public void payForOrder(Order order) {
-        orderService.payForOrder(order);
+    public void payFor(Order order) throws SoldOutException {
+        orderService.payFor(order);
     }
 }

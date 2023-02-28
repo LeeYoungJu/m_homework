@@ -15,12 +15,20 @@ public class OrderOrQuitQuestion {
             , QuestionCallback qCallback) {
         System.out.print(Question.ORDER_OR_QUIT);
         String answer = scanner.nextLine();
-        if(answer.equals(QuestionOption.OrderOrQuit.ORDER)) {
+        if(isAnswerOrder(answer)) {
             oCallback.afterAnswer();
-        } else if (answer.equals(QuestionOption.OrderOrQuit.QUIT)) {
+        } else if (isAnswerQuit(answer)) {
             qCallback.afterAnswer();
         } else {
             System.out.println(Warning.WRONG_ANSWER_O_OR_Q);
         }
+    }
+
+    private boolean isAnswerOrder(String answer) {
+        return QuestionOption.OrderOrQuit.ORDER.contains(answer);
+    }
+
+    private boolean isAnswerQuit(String answer) {
+        return QuestionOption.OrderOrQuit.QUIT.contains(answer);
     }
 }

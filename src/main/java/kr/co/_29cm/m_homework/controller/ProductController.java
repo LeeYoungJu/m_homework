@@ -23,6 +23,10 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    public Product getProductById(String id) {
+        return productService.getProductById(id);
+    }
+
     public boolean isProductIdValidate(String id) {
         return productService.isProductIdValidate(id);
     }

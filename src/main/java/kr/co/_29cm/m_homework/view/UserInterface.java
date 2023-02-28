@@ -8,6 +8,7 @@ import kr.co._29cm.m_homework.entity.Product;
 import kr.co._29cm.m_homework.exception.SoldOutException;
 import kr.co._29cm.m_homework.view.question.OrderOrQuitQuestion;
 import kr.co._29cm.m_homework.view.question.ProductOrderQuestion;
+import kr.co._29cm.m_homework.view.util.PrintUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -42,9 +43,7 @@ public class UserInterface {
         List<Product> products = productController.getAllProducts();
 
         PrintUtils.PrintColNames(colNames);
-        for(Product product : products) {
-            PrintUtils.printProduct(product);
-        }
+        PrintUtils.printProducts(products);
 
         /*
          * Order 인스턴스의 생명주기는 사용자가 주문 프로세스를 새로 시작할 때 생성되고
@@ -69,21 +68,13 @@ public class UserInterface {
                 /*
                  * 상품 추가 완료 후 상품번호, 수량 입력 단계에서 모두 SPACE+ENTER 이벤트 발생 시 주문 결제
                  */
-                , () -> {
-                    orderController.payForOrder(order);
-                }
+                , () -> payFor(order)
 
                 /*
                  * 상품번호, 수량에 제대로 된 값을 모두 입력 후 ENTER 이벤트 발생 시 선택한 상품을 주문에 추가
                  */
-                , (productId, orderAmt) -> {
-                    OrderProduct orderProduct = OrderProduct.builder()
-                            .productId(productId)
-                            .orderAmt(orderAmt)
-                            .build();
-
-                    order.addProduct(orderProduct);
-                });
+                , (productId, orderAmt) -> addProductToOrder(order, productId, orderAmt)
+        );
     }
 
     /*
@@ -100,6 +91,26 @@ public class UserInterface {
             System.out.println("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
             return false;
         }
+    }
+
+    private void payFor(Order order) {
+        try {
+            orderController.payFor(order);
+            PrintUtils.printOrderResult(order);
+        } catch (SoldOutException e) {
+            System.out.println("SoldOutException 발생. 주문한 상품량이 재고량보다 큽니다.");
+        }
+    }
+
+    private void addProductToOrder(Order order, String productId, int orderAmt) {
+        Product product = productController.getProductById(productId);
+        OrderProduct orderProduct = OrderProduct.builder()
+                .productId(productId)
+                .orderAmt(orderAmt)
+                .product(product)
+                .build();
+
+        order.addProduct(orderProduct);
     }
 
     private void chooseQuit() {

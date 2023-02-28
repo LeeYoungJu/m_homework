@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -156,5 +157,14 @@ public class UtilTest {
         assertEquals(0, idx1);
         assertEquals(3, idx2);
         assertTrue(idx3 < 0);
+    }
+
+    @Test
+    void addCommaToNumberTest() {
+        String numStr = "34200";
+        String numStr2 = "20546534200";
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        assertEquals("34,200", formatter.format(Integer.parseInt(numStr)));
+        assertEquals("20,546,534,200", formatter.format(Long.parseLong(numStr2)));
     }
 }

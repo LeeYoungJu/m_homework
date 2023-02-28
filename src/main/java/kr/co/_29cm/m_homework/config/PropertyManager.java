@@ -22,4 +22,8 @@ public class PropertyManager implements EnvironmentAware {
     public String getProperty(String key) {
         return environment.getProperty(key).trim();
     }
+
+    public String getProperty(String key, String defaultVal) {
+        return environment.getProperty(key, defaultVal).trim();
+    }
 }

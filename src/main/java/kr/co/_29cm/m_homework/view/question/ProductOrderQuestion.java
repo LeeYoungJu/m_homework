@@ -24,12 +24,14 @@ public class ProductOrderQuestion {
             String productId = askProductId(scanner, whenSpaceBarToProductId, productIdExistChecker);
 
             if(doesUserWantToQuit()) {
+                whenQuit();
                 break;
             }
 
             int orderAmt = askOrderAmt(scanner, productId, whenFinishSelectProduct);
 
             if(doesUserWantToQuit()) {
+                whenQuit();
                 break;
             }
 
@@ -96,5 +98,9 @@ public class ProductOrderQuestion {
 
     private boolean doesUserWantToQuit() {
         return quitFlag;
+    }
+
+    private void whenQuit() {
+        quitFlag = false;
     }
 }

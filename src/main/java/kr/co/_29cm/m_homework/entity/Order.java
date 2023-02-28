@@ -10,6 +10,7 @@ import java.util.List;
 public class Order {
     private String id;
     private List<OrderProduct> orderProducts;
+    private DeliveryInfo deliveryInfo;
 
     public void addProduct(OrderProduct orderProduct) {
         if(orderProducts.stream()
@@ -28,6 +29,23 @@ public class Order {
 
     public boolean isProductEmpty() {
         return orderProducts.size() == 0;
+    }
+
+    public boolean haveDeliveryCharge() {
+        return getTotalOrderPrice() < deliveryInfo.getChargeFreePrice();
+    }
+
+    public int getTotalOrderPrice() {
+        return orderProducts.stream().mapToInt(OrderProduct::getTotalPrice).sum();
+    }
+    public int getDeliveryCharge() {
+        if(haveDeliveryCharge()) {
+            return deliveryInfo.getCharge();
+        }
+        return 0;
+    }
+    public int getTotalPaymentPrice() {
+        return getTotalOrderPrice() + getDeliveryCharge();
     }
 
 }

@@ -25,6 +25,6 @@ public class ProductListBuilder implements DataListBuilder {
                 .price(Integer.parseInt(row[ProductColumn.PRICE.ordinal()]))
                 .stockAmt(Integer.parseInt(row[ProductColumn.STOCK_AMT.ordinal()]))
                 .build()
-        ).sorted(Comparator.comparing(Product::getId)).collect(Collectors.toList());
+        ).sorted(Comparator.comparing(Product::getId).reversed()).collect(Collectors.toList());
     }
 }
