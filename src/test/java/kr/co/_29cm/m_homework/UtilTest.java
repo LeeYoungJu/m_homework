@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -166,5 +169,33 @@ public class UtilTest {
         DecimalFormat formatter = new DecimalFormat("#,###");
         assertEquals("34,200", formatter.format(Integer.parseInt(numStr)));
         assertEquals("20,546,534,200", formatter.format(Long.parseLong(numStr2)));
+    }
+
+    static class MyCounter {
+        private int count;
+        public synchronized void increment() {
+            int temp = count;
+            count = temp + 1;
+        }
+
+        public int getCount() {
+            return count;
+        }
+    }
+
+    @Test
+    void multiThreadTest() throws InterruptedException {
+        MyCounter myCounter = new MyCounter();
+        int numOfThreads = 5;
+        ExecutorService service = Executors.newFixedThreadPool(10);
+        CountDownLatch latch = new CountDownLatch(numOfThreads);
+        for(int i=0; i<numOfThreads; i++) {
+            service.submit(() -> {
+                myCounter.increment();
+                latch.countDown();
+            });
+        }
+        latch.await();
+        assertEquals(numOfThreads, myCounter.getCount());
     }
 }

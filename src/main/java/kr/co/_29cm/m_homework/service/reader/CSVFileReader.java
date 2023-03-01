@@ -11,6 +11,12 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * <pre>
+ * BaseFileReader 인터페이스를 구현한 클래스
+ * CSV 파일의 데이터를 읽어서 리스트 형태로 반환한다.
+ * </pre>
+ */
 @Component
 @Primary
 public class CSVFileReader implements BaseFileReader {

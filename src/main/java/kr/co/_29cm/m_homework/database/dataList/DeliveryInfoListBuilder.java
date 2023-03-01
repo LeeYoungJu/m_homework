@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * 배달 정보 데이터가 메모리 저장소에 올라갈 형태를 결정해주는 클래스
+ */
 @Component
 public class DeliveryInfoListBuilder implements DataListBuilder {
     @Override

@@ -5,6 +5,12 @@ import lombok.Getter;
 
 import java.util.List;
 
+/**
+ * <pre>
+ * 사용자 주문을 표현하는 데이터 형태
+ * 데이터 저장소에 저장될 필요는 없어서 BaseEntity를 구현하지는 않았다.
+ * </pre>
+ */
 @Getter
 @Builder
 public class Order {
@@ -14,10 +20,11 @@ public class Order {
 
     public void addProduct(OrderProduct orderProduct) {
         if(orderProducts.stream()
-                .anyMatch(product -> product.getProductId().equals(orderProduct.getProductId()))
+                .anyMatch(product -> product.getProduct().getId()
+                        .equals(orderProduct.getProduct().getId()))
         ) {
             for(OrderProduct product : orderProducts) {
-                if(product.getProductId().equals(orderProduct.getProductId())) {
+                if(product.getProduct().getId().equals(orderProduct.getProduct().getId())) {
                     product.addOrderAmt(orderProduct.getOrderAmt());
                     break;
                 }

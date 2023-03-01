@@ -6,6 +6,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+/**
+ * 설정파일의 프로퍼티 값을 읽을 수 있는 클래스
+ */
 @Component
 @RequiredArgsConstructor
 @PropertySource("classpath:application.properties")

@@ -13,9 +13,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
+/**
+ * CSV 파일에 저장된 원본 데이터를 메모리 저장소에 올리는 클래스
+ */
 @Component
 @RequiredArgsConstructor
 public class CSVDataLoader implements DataLoader {
