@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 상품과 관련된 비즈니스 로직이 구현되는 클래스
@@ -37,12 +38,9 @@ public class ProductService {
      * @param id 상품번호(String)
      * @return 상품객체
      */
-    public Product getProductById(String id) {
-        try {
-            return baseRepository.selectOneById(Product.class, id);
-        } catch (EntityNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public Product getProductById(String id) throws EntityNotFoundException {
+
+        return baseRepository.selectOneById(Product.class, id);
     }
 
     /**
@@ -52,7 +50,6 @@ public class ProductService {
      */
     public boolean isProductIdValidate(String id) {
         try {
-
             baseRepository.selectOneById(Product.class, id);
             return true;
         } catch (EntityNotFoundException e) {

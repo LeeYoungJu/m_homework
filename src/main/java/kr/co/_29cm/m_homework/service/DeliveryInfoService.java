@@ -1,8 +1,8 @@
 package kr.co._29cm.m_homework.service;
 
 import kr.co._29cm.m_homework.entity.DeliveryInfo;
+import kr.co._29cm.m_homework.exception.EntityNotFoundException;
 import kr.co._29cm.m_homework.repository.DataRepository;
-import kr.co._29cm.m_homework.service.consts.DeliveryType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class DeliveryInfoService {
      * @param deliveryType 배송 종류(general: 일반배송, special: 특별배송)
      * @return 배송정보 객체
      */
-    public DeliveryInfo getDeliveryCharge(String deliveryType) {
+    public DeliveryInfo getDeliveryInfo(String deliveryType) throws EntityNotFoundException {
         return dataRepository.selectOneById(DeliveryInfo.class, deliveryType);
     }
 }

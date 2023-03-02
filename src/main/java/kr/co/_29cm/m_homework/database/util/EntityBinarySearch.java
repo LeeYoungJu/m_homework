@@ -39,6 +39,10 @@ public class EntityBinarySearch {
      * @throws EntityNotFoundException
      */
     public int binarySearchOneTarget(String id, int low, int high) throws EntityNotFoundException {
+        if(id == null) {
+            throw new EntityNotFoundException();
+        }
+
         int mid;
 
         while(low <= high) {
@@ -64,6 +68,9 @@ public class EntityBinarySearch {
      */
     public List<Integer> binarySearchMultiTarget(List<String> ids)
             throws EntityNotFoundException {
+        if(ids == null) {
+            throw new EntityNotFoundException();
+        }
 
         return ids
                 .stream()

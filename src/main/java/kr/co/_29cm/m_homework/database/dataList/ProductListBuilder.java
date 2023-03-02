@@ -22,6 +22,7 @@ public class ProductListBuilder implements DataListBuilder {
 
     @Override
     public List<BaseEntity> buildList(List<String[]> rows) {
+        // 정렬은 상품번호 기준 내림차순으로 한다.(최신 상품을 위로)
         return rows.stream().skip(1).map(row -> Product.builder()
                 .id(row[ProductColumn.ID.ordinal()])
                 .name(row[ProductColumn.NAME.ordinal()])

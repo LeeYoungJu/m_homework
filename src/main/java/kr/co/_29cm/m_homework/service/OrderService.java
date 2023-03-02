@@ -31,7 +31,7 @@ public class OrderService {
      * @Return 생성된 Order 객체
      */
     public Order createOrder() {
-        DeliveryInfo deliveryInfo = deliveryInfoService.getDeliveryCharge(DeliveryType.GENERAL);
+        DeliveryInfo deliveryInfo = deliveryInfoService.getDeliveryInfo(DeliveryType.GENERAL);
         return Order.builder()
                 .id(UUID.randomUUID().toString())
                 .orderProducts(new ArrayList<>())
@@ -44,7 +44,7 @@ public class OrderService {
      * 책임 : 주문 결제
      * 설명 : 사용자가 주문할 상품들을 선택하고 최종적으로 주문 결제를 하게 되면 이 함수가 실행된다.
      * 특이사항 : 해당 함수는 상품 수량을 감소시키기 때문에 유저가 몰리면 동시성 이슈가 발생한다.
-     *          이를 해결하기 위해 synchronized를 사용해 lock을 걸어서 여러 요청이 와도 순서대로 실행되도록 하였다.
+     *          이를 해결하기 위해 synchronized를 사용해 여러 요청이 와도 순서대로 실행되도록 하였다.
      * </pre>
      * @Param order : 사용자 주문 객체
      * @Return void

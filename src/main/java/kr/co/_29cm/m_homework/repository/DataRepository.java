@@ -44,7 +44,8 @@ public class DataRepository implements BaseRepository {
 
     @Override
     public <T> T selectOneById(Class<T> targetClass, String id) throws EntityNotFoundException {
-        List<BaseEntity> allData = dataVirtualStorage.getAllData(targetClass);
+        List<BaseEntity> allData = dataVirtualStorage.getAllData(targetClass)
+                .stream().collect(Collectors.toList());
         EntityBinarySearch entityBinarySearch = new EntityBinarySearch(allData);
         int idx = entityBinarySearch.binarySearchOneTarget(id, 0, allData.size() - 1);
 

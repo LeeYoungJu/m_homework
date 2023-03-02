@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("데이터 이진탐색 클래스 테스트")
 class EntityBinarySearchTest {
 
     @Test

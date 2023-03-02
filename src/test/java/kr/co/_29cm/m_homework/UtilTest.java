@@ -20,9 +20,10 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/*
+/**
  * 비즈니스 로직과 상관없는 유틸성 라이브러리/함수 검증 및 테스트
  */
+@DisplayName("유틸성 함수 테스트")
 public class UtilTest {
 
     @Test
@@ -130,39 +131,7 @@ public class UtilTest {
     }
 
     @Test
-    @DisplayName("Collections.binarySearch 사용 테스트")
-    void binarySearchTest() {
-        Product p1 = Product.builder().id("111").name("product1").price(3000).stockAmt(10).build();
-        Product p3 = Product.builder().id("333").name("product3").price(3000).stockAmt(10).build();
-        Product p2 = Product.builder().id("222").name("product2").price(3000).stockAmt(10).build();
-        Product p8 = Product.builder().id("888").name("product8").price(3000).stockAmt(10).build();
-        Product p7 = Product.builder().id("777").name("product7").price(3000).stockAmt(10).build();
-
-        Product searchP1 = Product.builder().id("111").build();
-        Product searchP2 = Product.builder().id("777").build();
-        Product searchP3 = Product.builder().id("1212").build();
-
-        List<Product> products = new ArrayList<>();
-        products.add(p1);
-        products.add(p3);
-        products.add(p2);
-        products.add(p8);
-        products.add(p7);
-
-        Comparator<Product> comparator = Comparator.comparing(Product::getId);
-
-        List<Product> sortedProducts = products.stream().sorted(comparator).collect(Collectors.toList());
-
-        int idx1 = Collections.binarySearch(sortedProducts, searchP1, comparator);
-        int idx2 = Collections.binarySearch(sortedProducts, searchP2, comparator);
-        int idx3 = Collections.binarySearch(sortedProducts, searchP3, comparator);
-
-        assertEquals(0, idx1);
-        assertEquals(3, idx2);
-        assertTrue(idx3 < 0);
-    }
-
-    @Test
+    @DisplayName("숫자 format 테스트")
     void addCommaToNumberTest() {
         String numStr = "34200";
         String numStr2 = "20546534200";
@@ -184,6 +153,7 @@ public class UtilTest {
     }
 
     @Test
+    @DisplayName("멀티스레드 사용 테스트")
     void multiThreadTest() throws InterruptedException {
         MyCounter myCounter = new MyCounter();
         int numOfThreads = 5;

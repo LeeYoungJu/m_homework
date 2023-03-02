@@ -1,12 +1,14 @@
 package kr.co._29cm.m_homework.database;
 
 import kr.co._29cm.m_homework.entity.BaseEntity;
+import kr.co._29cm.m_homework.exception.TopicClassNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * <pre>
@@ -49,7 +51,10 @@ public class DataVirtualStorage {
      * @param targetClass 토픽 클래스
      * @return 컬럼명 리스트
      */
-    public List<String> geColNames(Class<?> targetClass) {
+    public List<String> geColNames(Class<?> targetClass) throws TopicClassNotFoundException {
+        if(targetClass == null || tableColumnMap.get(targetClass.getSimpleName()) == null) {
+            throw new TopicClassNotFoundException();
+        }
         return tableColumnMap.get(targetClass.getSimpleName());
     }
 
@@ -58,7 +63,10 @@ public class DataVirtualStorage {
      * @param targetClass 토픽 클래스
      * @return 전체 데이터 리스트
      */
-    public List<BaseEntity> getAllData(Class<?> targetClass) {
+    public List<BaseEntity> getAllData(Class<?> targetClass) throws TopicClassNotFoundException {
+        if(targetClass == null || tableColumnMap.get(targetClass.getSimpleName()) == null) {
+            throw new TopicClassNotFoundException();
+        }
         return tableDataMap.get(targetClass.getSimpleName());
     }
 
