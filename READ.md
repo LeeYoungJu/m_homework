@@ -6,8 +6,8 @@
 자바 8 이상을 선택 한 이유는 함수형 인터페이스와 람다 표현식 그리고 스트림 API를 적극적으로 사용해서 코드 가독성을 높이고 side effect를 줄이기 위해서 이다.\
 자바8을 사용해도 되는데 굳이 자바11을 선택한 이유는 LTS 버전이며, 자바8과 비교하여 가비지 컬렉터가 변경되는 등 성능 향상 측면의 변화도 있었기 때문이다.
 
-### 사용한 외부 라이브러리  
-### `spring boot`  
+### 사용한 외부 라이브러리
+### `spring boot`
 웹 프로젝트가 아니기 때문에 서블릿 컨테이너는 필요 없지만 스프링 컨테이너가 제공하는 기능을 사용해 DI를 보다 손쉽게 하기 위해 선택하였다. 자바 11 버전을 지원하는 버전인 2.7.9을 선택하였으며 최신 버전인 3 이상을 선택하지 않은 이유는 버전 3 이상은 자바 17 이상만 지원하기 때문이다.
 ### `lombok`
 entity 클래스 작성 시 getter 메서드를 좀 더 편리하게 작성하고 builder 패턴을 보다 쉽게 구현하여 사용하기 위해 선택하였다.
@@ -23,7 +23,7 @@ Main 클래스의 main 메서드가 앱을 실행시키는 시작 함수이다.\
 시작 함수가 실행되면 스프링 컨테이너에 Annotation을 기반으로 Bean들을 등록하고 의존성 관계를 설정한다.\
 스프링 컨테이너 설정이 끝나면 데이터를 로드하고 사용자에게 보여질 화면을 표시한다.
 
-### 계층 분리  
+### 계층 분리
 프로젝트 계층을 다음과 같이 나눴다.
 
 ### `view`
@@ -38,7 +38,7 @@ Main 클래스의 main 메서드가 앱을 실행시키는 시작 함수이다.\
 앱의 시작 시점에 csv 파일의 데이터가 로드되는 메모리 저장소가 존재하는 계층이다. 메모리 저장소는 Storage 클래스의 클래스 변수로 존재한다. 앱의 시작과 동시에 생성되고 종료 시 사라진다. 메모리 저장소는 private으로 정의되어서 외부에서 직접적으로 접근할 수 없으며 Storage 클래스가 구현한 메서드를 통해서만 데이터를 다룰 수 있다. 오로지 repository 계층만 이 계층에 접근한다.
 
 ## 3. 데이터 load 방식
-### CSV 파일  
+### CSV 파일
 원본 데이터는 csv 파일로 제공된다. 이 파일을 resources 폴더에 저장하여 활용할 수 있도록 하였다.
 ### 데이터 메모리 저장소
 데이터가 필요할 때 마다 파일을 읽으면 Disk I/O가 빈번하게 일어나 성능 저하가 오기 때문에 App 시작 시점에 DataLoader를 이용해 파일의 데이터를 메모리 저장소에 load 하고 데이터 활용 시 메모리 저장소에 접근하도록 하였다. 여기서 말하는 메모리 저장소는 Storage 클래스의 클래스 변수다.
@@ -169,8 +169,8 @@ public class ProductListBuilder implements DataListBuilder {
 
 ### 특정 데이터 검색
 List 형태로 entity 객체가 저장되고 관리되는데 이 List 중 필요한 객체를 찾을 필요가 있다. 이 때 하나씩 돌면서 체크하면 시간복잡도가 O(n)이 되기 때문에 데이터 수가 증가할수록 탐색 소요 시간도 일정한 비율로 같이 증가하게 된다. 그래서 이를 개선하기 위해 entity 객체 List를 이진탐색으로 검색할 수 있는 클래스를 만들었다. 이를 활용하면 시간복잡도가 O(log n)으로 개선된다. (List는 메모리에 로드 될 때 id를 기준으로 정렬해서 올라가며 검색할 때 id를 기준으로 검색한다.)
-### 데이터 복사본 활용  
-데이터가 메모리 저장소로부터 사용자에 가까운 계층으로 넘어갈 때 원본 데이터 객체를 넘기게 되면 의도치 않게 원본 데이터가 손상 될 위험이 있다. 데이터 조작은 반드시 view → controller → service → repository 순서로 거쳐서 처리되어야 하는데 누군가의 실수로 view 혹은 controller 계층에서 데이터를 수정/삭제 해버려서 데이터 무결성이 깨지고 앱 전체에 영향을 줄 수 있다는 뜻이다.
+### 데이터 복사본 활용
+데이터가 메모리 저장소로부터 사용자에 가까운 계층으로 넘어갈 때 원본 데이터 객체를 넘기게 되면 의도치 않게 원본 데이터가 손상 될 위험이 있다. 데이터 조작은 반드시 view → controller → service → repository 순서로 거쳐서 처리되어야 하는데 누군가의 실수로 view 혹은 controller 계층에서 데이터를 수정/삭제 해버려서 데이터 무결성이 깨지고 앱 전체에 영향을 줄 수 있다는 뜻이다. 그래서 data repository 계층에서 service 계층으로 데이터를 넘길 때 반드시 복사본 데이터를 넘기도록 코드를 작성하였다.
 
 ## 5. 개발 방향성
 
@@ -184,7 +184,7 @@ view 계층은 사용자에게 선택권을 주고 어떤 것을 선택했는지
 ```java
 // 사용자와 소통하는 클래스
 @Component
-public class OrderOrQuitQuestion {    
+public class OrderOrQuitQuestion {
     public void ask(Runnable orderChooseCallback, Runnable quitChooseCallback) {
         System.out.print(Question.ORDER_OR_QUIT);
         String answer = UserInterface.scanner.nextLine();
@@ -206,11 +206,11 @@ public class UserInterface {
 
     public void render() {
         while(true) {
-            orderOrQuitQuestion.ask(                    
+            orderOrQuitQuestion.ask(
                     (() -> chooseOrder())
-                  , (() -> chooseQuit())
+                    , (() -> chooseQuit())
             );
- 
+
             if(isQuit()) {
                 break;
             }
